@@ -1,0 +1,5 @@
+{
+  "name": "CPR Rhythm Trainer",
+  "description": "An interactive web application to help users practice the correct rhythm for CPR chest compressions (100-120 BPM) with real-time visual and text-based feedback.",
+  "requestFramePermissions": []
+}
