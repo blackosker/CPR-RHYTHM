@@ -9,13 +9,29 @@ import { StartIcon, StopIcon, RestartIcon, HeartIcon } from './components/Icons'
 // Constants
 const TARGET_BPM = 110;
 const BEAT_INTERVAL = 60000 / TARGET_BPM; // ~545ms
-const PERFECT_THRESHOLD = 50; // ms
-const ACCEPTABLE_THRESHOLD = 150; // ms
+const PERFECT_THRESHOLD = 80; // ms - More human-friendly
+const ACCEPTABLE_THRESHOLD = 200; // ms - More human-friendly
 
 const PROGRESS_INCREMENT_PERFECT = 5;
 const PROGRESS_INCREMENT_ACCEPTABLE = 2;
 const PROGRESS_DECREMENT_POOR = 8;
 const PROGRESS_DECREMENT_MISSED = 10;
+
+// Tiny base64 encoded mp3 for a click sound
+const CLICK_SOUND_B64 = 'data:audio/mpeg;base64,SUQzBAAAAAAAI1RTU0UAAAAPAAADTGF2ZjU2LjM2LjEwMAAAAAAAAAAAAAAA//OEAAAAAAAAAAAAAAAAAAAAAAAASW5mbwAAAA8AAAAEAAABIwAAHwAAB1AAAAAATEFNRTMuOTkuNVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV//OEAAAAAAAAAAAAAAAAAAAAAAAFhpbmcAAAAPAAAAEAAABIwAAHwAAB1AAAAAAVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV-';
+
+const sendScoreToStoryline = (score: number, status: string) => {
+  try {
+    // @ts-ignore - GetPlayer is a Storyline specific function on the parent window
+    const player = window.parent.GetPlayer();
+    if (player) {
+      player.SetVar("PuntajeRCP", score);
+      player.SetVar("EstadoRCP", status); // "Aprobado" or "Fallido"
+    }
+  } catch (e) {
+    console.log("Modo Dev: Storyline no detectado. Datos:", { score, status });
+  }
+};
 
 const App: React.FC = () => {
     const [gameState, setGameState] = useState<GameState>(GameState.Idle);
@@ -25,7 +41,7 @@ const App: React.FC = () => {
 
     const nextBeatTimeRef = useRef<number>(0);
     const animationFrameIdRef = useRef<number>(0);
-    const audioContextRef = useRef<AudioContext | null>(null);
+    const beatAudioRef = useRef<HTMLAudioElement | null>(null);
 
     const FEEDBACK_MAP: Record<FeedbackType, { text: string; color: string }> = {
         [FeedbackType.PERFECT]: { text: '¡RITMO PERFECTO!', color: 'text-green-400' },
@@ -37,21 +53,10 @@ const App: React.FC = () => {
     };
 
     const playBeatSound = useCallback(() => {
-        if (!audioContextRef.current) return;
-        const context = audioContextRef.current;
-        const oscillator = context.createOscillator();
-        const gainNode = context.createGain();
-
-        oscillator.connect(gainNode);
-        gainNode.connect(context.destination);
-
-        oscillator.type = 'sine';
-        oscillator.frequency.setValueAtTime(600, context.currentTime);
-        gainNode.gain.setValueAtTime(0.5, context.currentTime);
-        gainNode.gain.exponentialRampToValueAtTime(0.001, context.currentTime + 0.05);
-
-        oscillator.start(context.currentTime);
-        oscillator.stop(context.currentTime + 0.05);
+        if (beatAudioRef.current) {
+            beatAudioRef.current.currentTime = 0;
+            beatAudioRef.current.play().catch(e => console.error("Error playing sound:", e));
+        }
     }, []);
 
     const updateProgress = (amount: number) => {
@@ -89,17 +94,14 @@ const App: React.FC = () => {
     const gameLoop = useCallback((timestamp: number) => {
         if (gameState !== GameState.Running) return;
     
-        // Check for missed beat
         if (timestamp > nextBeatTimeRef.current + ACCEPTABLE_THRESHOLD) {
             setFeedback({ text: FEEDBACK_MAP[FeedbackType.MISSED].text, type: FeedbackType.MISSED });
             updateProgress(-PROGRESS_DECREMENT_MISSED);
             nextBeatTimeRef.current += BEAT_INTERVAL;
         }
     
-        // Update pulse for visual guide
         const timeSinceLastIdealBeat = timestamp - (nextBeatTimeRef.current - BEAT_INTERVAL);
         const pulsePhase = (timeSinceLastIdealBeat % BEAT_INTERVAL) / BEAT_INTERVAL;
-        // Using a sine wave for a smooth pulse
         const newPulse = Math.sin(pulsePhase * Math.PI * 2);
         setPulse(newPulse);
     
@@ -126,23 +128,15 @@ const App: React.FC = () => {
         if (progress >= 100) {
             setGameState(GameState.Finished);
             setFeedback({ text: FEEDBACK_MAP[FeedbackType.COMPLETE].text, type: FeedbackType.COMPLETE });
+            sendScoreToStoryline(100, "Aprobado");
         }
     }, [progress, FEEDBACK_MAP]);
     
     const startGame = () => {
-        if (!audioContextRef.current) {
-            try {
-                audioContextRef.current = new (window.AudioContext || (window as any).webkitAudioContext)();
-            } catch (e) {
-                console.error("Web Audio API is not supported in this browser", e);
-                return;
-            }
+        if (!beatAudioRef.current) {
+           beatAudioRef.current = new Audio(CLICK_SOUND_B64);
         }
         
-        if (audioContextRef.current.state === 'suspended') {
-            audioContextRef.current.resume();
-        }
-
         setProgress(0);
         setFeedback({ text: 'Sigue el ritmo del círculo', type: FeedbackType.INFO });
         setGameState(GameState.Running);
